@@ -1,0 +1,9 @@
+FROM postgres:16-alpine
+
+RUN apk add zsh git
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+ENV POSTGRES_USER lasmik
+ENV POSTGRES_PASSWORD MegetHemmeligPGPW
+COPY init/* /docker-entrypoint-initdb.d/
+RUN mkdir -p /tmp/data
+RUN chmod 777 /tmp/data
