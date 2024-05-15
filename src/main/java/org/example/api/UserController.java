@@ -1,19 +1,20 @@
 package org.example.api;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.example.model.User;
+import org.example.dto.LoginRequest;
+import org.example.dto.UserRequest;
+import org.example.dto.UserResponse;
 import org.example.service.UserService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("auth/users/")
+@RequestMapping("/users/")
 public class UserController {
 
     private UserService userService;
@@ -23,7 +24,18 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
+    public String hej(HttpServletRequest httpServletRequest) {
+        System.out.println(httpServletRequest.getSession().getAttribute("username"));
+        return "hej";
+    }
+
+    @GetMapping("auth/users")
+    public List<UserResponse> getUsers() {
         return userService.getUsers();
+    }
+
+    @PostMapping("new-user")
+    public UserResponse addUser(@RequestBody UserRequest userRequest) {
+        return userService.addUser(userRequest);
     }
 }
