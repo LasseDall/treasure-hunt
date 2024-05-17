@@ -5,5 +5,6 @@ RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -
 ENV POSTGRES_USER lasmik
 ENV POSTGRES_PASSWORD MegetHemmeligPGPW
 COPY init/* /docker-entrypoint-initdb.d/
+COPY ./handvask.jpg /app/kashmir.jpg
 RUN mkdir -p /tmp/data
 RUN chmod 777 /tmp/data

@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping("/clues/")
+@RequestMapping("/api/clues/")
 public class ClueController {
 
     private ClueService clueService;

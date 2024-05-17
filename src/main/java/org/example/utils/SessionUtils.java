@@ -1,7 +1,9 @@
+/*
 package org.example.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Slf4j
-@Component
+@Service
 public class SessionUtils {
     private static final String KEY_ALGORITHM = "AES";
     private static final String CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
@@ -65,3 +67,5 @@ public class SessionUtils {
         }
     }
 }
+
+ */

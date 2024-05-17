@@ -17,8 +17,12 @@ public class ClueService {
     }
 
     public List<ClueResponse> getClues(String role) {
-        List<Clue> clues = clueRepository.findAll();
-        List<Clue> presentClues = clues.stream().filter(clue -> clue.getRole().length() <= role.length()).toList();
-        return presentClues.stream().map(ClueResponse::new).toList();
+        if (role != null) {
+            List<Clue> clues = clueRepository.findAll();
+            List<Clue> presentClues = clues.stream().filter(clue -> clue.getRole().length() <= role.length()).toList();
+            return presentClues.stream().map(ClueResponse::new).toList();
+        } else {
+            return null;
+        }
     }
 }

@@ -37,8 +37,8 @@ INSERT INTO treasure_hunt_schema.users (username, password, email, phone, name, 
 ('oversvøm', 'hallo!', 'lasse@live.dk', '20627140', 'Lasse Dall', 'new');
 
 INSERT INTO treasure_hunt_schema.clues (text, image, role) VALUES
-('Kig godt efter..', './ibens.jpg', 'new'),
-('Kig efter..', './ibens.jpg', 'ny'),
-('Kig rigtig godt efter..', './ibens.jpg', 'not new');
+('Kig godt efter..', pg_read_binary_file('/app/kashmir.jpg'), 'new'),
+('Kig efter..', pg_read_binary_file('/app/kashmir.jpg'), 'ny'),
+('Kig rigtig godt efter..', pg_read_binary_file('/app/kashmir.jpg'), 'not new');
 
 COMMIT;
