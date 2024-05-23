@@ -14,7 +14,10 @@ public class UserResponse {
 
     private String username;
 
+    private String password;
+
     public UserResponse (User user) {
         this.username = user.getUsername();
+        this.password = user.getPassword();
     }
 }

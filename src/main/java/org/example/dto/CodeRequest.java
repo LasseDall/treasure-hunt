@@ -14,4 +14,12 @@ public class CodeRequest {
     private String name;
 
     private String password;
+
+    @Override
+    public String toString() {
+        return "CodeRequest{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

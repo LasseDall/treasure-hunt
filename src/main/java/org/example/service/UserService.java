@@ -4,8 +4,10 @@ import org.example.dto.UserRequest;
 import org.example.dto.UserResponse;
 import org.example.model.User;
 import org.example.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -35,11 +37,24 @@ public class UserService {
             User newUser = User.builder()
                     .username(userRequest.getUsername())
                     .password(encodedPassword)
+                    .phone(userRequest.getPhone())
+                    .email(userRequest.getEmail())
+                    .name(userRequest.getName())
                     .role("new")
                     .build();
             userRepository.save(newUser);
             return new UserResponse(newUser);
         }
         return null;
+    }
+
+    public void updateUsersRole(String username, String newRole) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            user.setRole(newRole);
+            userRepository.save(user);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
     }
 }

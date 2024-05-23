@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(sessionInterceptor)
                 .addPathPatterns("/users/**")
                 .excludePathPatterns("/users/new-user")
-                .addPathPatterns("/clues/**");
+                .addPathPatterns("api/clues/");
     }
 
     @Override
