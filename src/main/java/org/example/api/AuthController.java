@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.LoginRequest;
 import org.example.service.AuthService;
+import org.example.utils.SessionUtils;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -14,19 +15,26 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private AuthService authService;
+    private SessionUtils sessionUtils;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, SessionUtils sessionUtils) {
         this.authService = authService;
+        this.sessionUtils = sessionUtils;
     }
 
     @PostMapping(path = "login")
     public boolean login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
-        String isAuthenticated = authService.login(loginRequest.getUsername(), loginRequest.getPassword());
-        if (isAuthenticated != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("username", loginRequest.getUsername());
-            session.setAttribute("role", isAuthenticated);
-            return true;
+        String role = authService.login(loginRequest.getUsername(), loginRequest.getPassword());
+        if (role != null) {
+            try {
+                sessionUtils.setEncryptedSessionAttribute(request, "username", loginRequest.getUsername());
+                sessionUtils.setEncryptedSessionAttribute(request, "role", role);
+                return true;
+            } catch (RuntimeException re) {
+                log.error(re.getMessage());
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
         }
         return false;
     }

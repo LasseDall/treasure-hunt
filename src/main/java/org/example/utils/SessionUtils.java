@@ -1,14 +1,12 @@
-/*
 package org.example.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -18,7 +16,9 @@ public class SessionUtils {
     private static final String KEY_ALGORITHM = "AES";
     private static final String CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
     //CHANGE BEFORE PROD
-    private SecretKeySpec keySpec = new SecretKeySpec("12345678910".getBytes(StandardCharsets.UTF_8), KEY_ALGORITHM);
+    private SecretKeySpec keySpec = new SecretKeySpec("1234567891011121".getBytes(StandardCharsets.UTF_8), KEY_ALGORITHM);
+
+    public SessionUtils() {}
 
     private byte[] encryptData(byte[] data) {
         try {
@@ -67,5 +67,3 @@ public class SessionUtils {
         }
     }
 }
-
- */
