@@ -1,9 +1,12 @@
 package org.example.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.example.dto.UserRequest;
 import org.example.dto.UserResponse;
 import org.example.model.User;
 import org.example.repository.UserRepository;
+import org.example.utils.SessionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -18,9 +22,12 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    private SessionUtils sessionUtils;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, SessionUtils sessionUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.sessionUtils = sessionUtils;
     }
 
     public List<UserResponse> getUsers() {
@@ -41,6 +48,7 @@ public class UserService {
                     .email(userRequest.getEmail())
                     .name(userRequest.getName())
                     .role("new")
+                    .notes("Collect your notes here..")
                     .build();
             userRepository.save(newUser);
             return new UserResponse(newUser);
@@ -56,5 +64,47 @@ public class UserService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }
+    }
+
+    public String updateNotes(String notes, HttpServletRequest request) {
+        String username = null;
+        try {
+            username = sessionUtils.getDecryptedSessionAttribute(request, "username");
+        } catch (RuntimeException re) {
+            log.error(re.getMessage());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+        if (username != null) {
+            User user = userRepository.findByUsername(username);
+
+            if (user != null) {
+                user.setNotes(notes);
+                userRepository.save(user);
+                return notes;
+            }
+        }
+        return null;
+    }
+
+    public String getNotes(HttpServletRequest request) {
+        String username = null;
+        try {
+            username = sessionUtils.getDecryptedSessionAttribute(request, "username");
+        } catch (RuntimeException re) {
+            log.error(re.getMessage());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+        if (username != null) {
+            User user = userRepository.findByUsername(username);
+
+            if (user != null) {
+                return user.getNotes();
+            }
+        }
+        return null;
     }
 }

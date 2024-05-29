@@ -1,7 +1,6 @@
 package org.example.config;
 
 import org.example.middleware.SessionInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -21,14 +20,16 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(sessionInterceptor)
                 .addPathPatterns("/users/**")
                 .excludePathPatterns("/users/new-user")
-                .addPathPatterns("api/**");
+                .addPathPatterns("/api/**");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
-                .allowedMethods("GET", "POST")
-                .allowCredentials(true);
+                .allowedMethods("GET", "POST", "PUT", "OPTIONS")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .exposedHeaders("Authorization", "Content-Type");
     }
 }

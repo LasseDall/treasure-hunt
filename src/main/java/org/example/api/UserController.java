@@ -1,9 +1,7 @@
 package org.example.api;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.example.dto.LoginRequest;
 import org.example.dto.UserRequest;
 import org.example.dto.UserResponse;
 import org.example.service.UserService;
@@ -34,8 +32,18 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @GetMapping("notes")
+    public String getNotes(HttpServletRequest request) {
+        return userService.getNotes(request);
+    }
+
     @PostMapping("new-user")
     public UserResponse addUser(@RequestBody UserRequest userRequest) {
         return userService.addUser(userRequest);
+    }
+
+    @PutMapping("notes")
+    public String updateNotes(@RequestBody String notes, HttpServletRequest request) {
+        return userService.updateNotes(notes, request);
     }
 }
