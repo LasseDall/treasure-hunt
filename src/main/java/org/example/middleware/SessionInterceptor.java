@@ -20,7 +20,6 @@ public class SessionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession(false);
-        System.out.println(sessionUtils.getDecryptedSessionAttribute(request, "username"));
         if (session == null || session.getAttribute("username") == null) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;

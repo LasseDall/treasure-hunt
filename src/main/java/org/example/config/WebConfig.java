@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(sessionInterceptor)
                 .addPathPatterns("/users/**")
                 .excludePathPatterns("/users/new-user")
+                .excludePathPatterns("/users/notes")
                 .addPathPatterns("/api/**");
     }
 
